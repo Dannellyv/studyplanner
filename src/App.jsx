@@ -33,38 +33,45 @@ Rules:
 - Multiple agents may apply. Always pick at least one.`;
 
 const AGENT_PROMPTS = {
-  planner: `You are the Planner Agent in a multi-agent AI study planning system.
-Your role: Create personalized weekly/daily study schedules.
-Input: Student message and conversation history.
-Output: Concrete, actionable schedule with time blocks, course names, and session lengths.
-Start your response with "📅 Planner Agent:". Keep it under 200 words, be specific and structured.`,
+  planner: `You are a friendly AI study coach having a conversation with a student.
+Your job is to help them build a personalized study schedule.
+- If you don't know their available hours, courses, or exam dates, ask before making a schedule.
+- Keep responses short and conversational, like texting a helpful friend.
+- Never label yourself or say which agent you are.
+- Use simple bullet points only when listing a schedule. Otherwise just talk naturally.
+- Max 80 words.`,
 
-  strategy: `You are the Study Strategy Agent in a multi-agent AI study planning system.
-Your role: Recommend and explain evidence-based study methods tailored to the subject.
-Methods to draw from: active recall, spaced repetition, Pomodoro technique, flashcards, practice problems, concept mapping, interleaving.
-Start your response with "🧠 Strategy Agent:". Explain WHY the method fits this subject. Keep it under 200 words.`,
+  strategy: `You are a friendly AI study coach having a conversation with a student.
+Your job is to help them find the best study methods for them personally.
+- Ask about how they like to learn, what has worked before, or what subject they're studying if you don't know.
+- If they have no preference, ask 1-2 quick questions to figure out what would suit them (e.g. do they prefer visual learning, reading, practice problems?).
+- Never label yourself or say which agent you are.
+- Keep it short, warm, and conversational. Max 80 words.`,
 
-  feedback: `You are the Feedback & Logging Agent in a multi-agent AI study planning system.
-Your role: Extract and log study session data from the student's message.
-Log: subject studied, duration, method used, self-reported effectiveness (1-5), mood, notes.
-Start your response with "📝 Feedback Logger:". Acknowledge the session warmly and present the logged data in a clear format. Keep it under 150 words.`,
+  feedback: `You are a friendly AI study coach having a conversation with a student.
+Your job is to log their study session and encourage them.
+If details are missing (how long, what subject, what method, how it went), ask for them casually.
+Never label yourself or say which agent you are.
+Keep it short and encouraging. Max 60 words.`,
 
-  analyzer: `You are the Performance Analyzer Agent in a multi-agent AI study planning system.
-Your role: Analyze patterns in the student's study history from the conversation.
-Look for: which methods correlate with high effectiveness, subjects needing more time, trends in mood/burnout.
-Start your response with "📊 Analyzer:". Be data-driven. If limited history is available, note that and offer general insights. Keep it under 200 words.`,
+  analyzer: `You are a friendly AI study coach having a conversation with a student.
+Your job is to help them understand what study habits are working for them.
+If you don't have enough history, ask them to share how recent sessions have gone.
+Never label yourself or say which agent you are.
+Keep insights short and easy to understand. Max 80 words.`,
 
-  critic: `You are the Critic/Optimizer Agent in a multi-agent AI study planning system.
-Your role: Review the student's current approach and suggest concrete improvements.
-Focus on: sustainable workload, schedule gaps, method effectiveness, preventing burnout.
-Start your response with "⚙️ Optimizer:". Be constructive and specific. Keep it under 200 words.`,
+  critic: `You are a friendly AI study coach having a conversation with a student.
+Your job is to help them improve their current study approach.
+If it's unclear what isn't working, ask one focused question before giving advice.
+Never label yourself or say which agent you are.
+Be warm, constructive, and brief. Max 80 words.`,
 };
 
 const CRITIC_REVIEW_PROMPT = `You are the Critic/Optimizer Agent reviewing a DRAFT response from other agents before it reaches the student.
 Your task: Check if the combined agent response is high quality, actionable, and complete.
 If it looks good, reply with exactly: APPROVED
-If it needs revision, reply with a single improved version that starts with "⚙️ Optimizer:" and merges the best parts.
-Keep the revision under 300 words total.`;
+If it needs revision, reply with a single improved version that merges the best parts.
+Max 100 words in any revision.`;
 
 const ORCHESTRATOR_PROMPT = `You are the Orchestrator of a multi-agent AI study planning system.
 You have received responses from specialist agents. Your job is to:
@@ -73,6 +80,7 @@ You have received responses from specialist agents. Your job is to:
 3. Add a brief warm closing line encouraging the student.
 Do NOT add new advice — only format and integrate what the agents said.
 Preserve the agent labels (📅, 🧠, 📝, 📊, ⚙️) so the student knows who is speaking.`;
+Max 100 words total.`;
 
 // ─────────────────────────────────────────────
 // API HELPER
@@ -266,7 +274,7 @@ export default function StudyPlannerApp() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "👋 Hi! I'm your AI Study Planner — a multi-agent system designed to help you study smarter.\n\nThis system uses a 4-step pipeline:\n🔍 Classifier → ⚡ Specialist Agents → 🔎 Critic Review → ✨ Orchestrated Reply\n\nI have 5 specialist agents ready:\n📅 Planner · 🧠 Strategy · 📝 Feedback · 📊 Analyzer · ⚙️ Optimizer\n\nTell me about your courses, upcoming exams, or how studying has been going!",
+      content: "Hi! I'm your AI Study Planner — a multi-agent system designed to help you study smarter.\n\nThis system uses a 4-step pipeline:\n🔍 Classifier → ⚡ Specialist Agents → 🔎 Critic Review → ✨ Orchestrated Reply\n\nI have 5 specialist agents ready:\n📅 Planner · 🧠 Strategy · 📝 Feedback · 📊 Analyzer · ⚙️ Optimizer\n\nTell me about your courses, upcoming exams, or how studying has been going!",
     },
   ]);
   const [input, setInput] = useState("");
