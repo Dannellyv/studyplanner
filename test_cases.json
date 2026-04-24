@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "project": "AI Study Planner",
+    "milestone": "III - System Evaluation",
+    "author": "Dannelly Vargas",
+    "date": "2025-04-09",
+    "total_cases": 15,
+    "description": "Scripted benchmark test cases covering all 5 agent specializations and edge cases"
+  },
+  "test_cases": [
+    {
+      "id": 1,
+      "prompt": "Can you make me a study schedule for finals week? I have Calc, Bio, and History exams.",
+      "category": "scheduling",
+      "expected_agents": ["planner"],
+      "edge_case": false,
+      "notes": "Clear single-agent scheduling request with sufficient context"
+    },
+    {
+      "id": 2,
+      "prompt": "What's the best way to study for a multiple choice biology exam?",
+      "category": "study_methods",
+      "expected_agents": ["strategy"],
+      "edge_case": false,
+      "notes": "Clear single-agent strategy request"
+    },
+    {
+      "id": 3,
+      "prompt": "I studied math for 2 hours using practice problems. It went really well, maybe 4/5.",
+      "category": "logging",
+      "expected_agents": ["feedback"],
+      "edge_case": false,
+      "notes": "Session log with full context - subject, duration, method, effectiveness"
+    },
+    {
+      "id": 4,
+      "prompt": "What study methods have been working best for me?",
+      "category": "analysis",
+      "expected_agents": ["analyzer"],
+      "edge_case": true,
+      "notes": "Analyzer cold-start - no prior session history to analyze"
+    },
+    {
+      "id": 5,
+      "prompt": "I feel like my plan isn't working and I'm burning out. Can you optimize it?",
+      "category": "optimization",
+      "expected_agents": ["critic"],
+      "edge_case": false,
+      "notes": "Burnout and optimization request"
+    },
+    {
+      "id": 6,
+      "prompt": "I uploaded my syllabus. Can you build me a week-by-week schedule based on it?",
+      "category": "scheduling",
+      "expected_agents": ["planner"],
+      "edge_case": false,
+      "notes": "Syllabus-based scheduling request"
+    },
+    {
+      "id": 7,
+      "prompt": "How does spaced repetition work and should I use it for Spanish vocab?",
+      "category": "study_methods",
+      "expected_agents": ["strategy"],
+      "edge_case": false,
+      "notes": "Method explanation + subject-specific recommendation"
+    },
+    {
+      "id": 8,
+      "prompt": "Log: studied Organic Chemistry for 90 min, flashcards, effectiveness 2/5, felt tired.",
+      "category": "logging",
+      "expected_agents": ["feedback"],
+      "edge_case": false,
+      "notes": "Structured session log with low effectiveness rating"
+    },
+    {
+      "id": 9,
+      "prompt": "I have only 3 days until my physics exam. What should I prioritize?",
+      "category": "multi_agent",
+      "expected_agents": ["planner", "strategy"],
+      "edge_case": false,
+      "notes": "Multi-agent: urgent scheduling + method recommendation"
+    },
+    {
+      "id": 10,
+      "prompt": "How am I doing overall? Any patterns in my study habits?",
+      "category": "analysis",
+      "expected_agents": ["analyzer"],
+      "edge_case": true,
+      "notes": "Analyzer cold-start - no prior session history in fresh session"
+    },
+    {
+      "id": 11,
+      "prompt": "What is 2+2?",
+      "category": "out_of_scope",
+      "expected_agents": ["off_topic"],
+      "edge_case": true,
+      "notes": "Completely out-of-scope query - should be rejected or redirected"
+    },
+    {
+      "id": 12,
+      "prompt": "I'm so stressed I can't sleep. I feel like I'll fail everything.",
+      "category": "emotional",
+      "expected_agents": ["critic"],
+      "edge_case": true,
+      "notes": "Emotionally sensitive - requires empathy before advice"
+    },
+    {
+      "id": 13,
+      "prompt": "Make me the perfect study plan.",
+      "category": "scheduling",
+      "expected_agents": ["planner"],
+      "edge_case": true,
+      "notes": "Underspecified request - no courses, hours, or exam dates given"
+    },
+    {
+      "id": 14,
+      "prompt": "I studied for 45 min last night. Make a plan for next week.",
+      "category": "multi_agent",
+      "expected_agents": ["planner", "feedback"],
+      "edge_case": false,
+      "notes": "Multi-agent: logging + scheduling combined"
+    },
+    {
+      "id": 15,
+      "prompt": "Are there any conflicts in my schedule? I have work Monday and Wednesday 5-9pm.",
+      "category": "optimization",
+      "expected_agents": ["critic"],
+      "edge_case": false,
+      "notes": "Schedule conflict detection with real constraints"
+    }
+  ],
+  "categories": {
+    "scheduling": "Requests for study plans, schedules, or time management",
+    "study_methods": "Requests for techniques, strategies, or how-to-study advice",
+    "logging": "Session logging - reporting what was studied and how it went",
+    "analysis": "Pattern analysis of study history and performance",
+    "optimization": "Plan review, burnout handling, improvement suggestions",
+    "multi_agent": "Requests that require multiple specialist agents",
+    "out_of_scope": "Queries unrelated to studying",
+    "emotional": "Emotionally charged messages requiring sensitivity"
+  }
+}
